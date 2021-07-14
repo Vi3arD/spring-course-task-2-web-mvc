@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GHCR_REGISTRY: ghcr.io
-      IMAGE: Vi3arD/course2
+      IMAGE: vi3ard/course2
 
     steps:
       - uses: actions/checkout@v2
