@@ -72,42 +72,42 @@ public class OrderRepository {
     }
 
     public Optional<Order> save(Order order) {
-        if (order.getId() == 0) {
-            return queryForOptional(
-                    "INSERT INTO orders(" +
-                            "userName, " +
-                            "password, " +
-                            "orderNumber, " +
-                            "amount, " +
-                            "currency, " +
-                            "returnUrl, " +
-                            "failUrl, " +
-                            "status, " +
-                            "isDeleted " +
-                            ") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) " +
-                            "RETURNING id, " +
-                            "userName, " +
-                            "password, " +
-                            "orderNumber, " +
-                            "amount, " +
-                            "currency, " +
-                            "returnUrl, " +
-                            "failUrl, " +
-                            "status, " +
-                            "isDeleted ",
-                    rowMapper,
-                    order.getUserName(),
-                    order.getPassword(),
-                    order.getOrderNumber(),
-                    order.getAmount(),
-                    order.getCurrency(),
-                    order.getReturnUrl(),
-                    order.getFailUrl(),
-                    NEW_STATUS,
-                    false
-            );
-        }
+        return queryForOptional(
+                "INSERT INTO orders(" +
+                        "userName, " +
+                        "password, " +
+                        "orderNumber, " +
+                        "amount, " +
+                        "currency, " +
+                        "returnUrl, " +
+                        "failUrl, " +
+                        "status, " +
+                        "isDeleted " +
+                        ") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+                        "RETURNING id, " +
+                        "userName, " +
+                        "password, " +
+                        "orderNumber, " +
+                        "amount, " +
+                        "currency, " +
+                        "returnUrl, " +
+                        "failUrl, " +
+                        "status, " +
+                        "isDeleted ",
+                rowMapper,
+                order.getUserName(),
+                order.getPassword(),
+                order.getOrderNumber(),
+                order.getAmount(),
+                order.getCurrency(),
+                order.getReturnUrl(),
+                order.getFailUrl(),
+                NEW_STATUS,
+                false
+        );
+    }
 
+    public Optional<Order> update(Order order) {
         return queryForOptional(
                 "UPDATE orders SET " +
                         "userName = ?, " +
@@ -156,13 +156,13 @@ public class OrderRepository {
 
         Order current = currentOptional.orElseThrow(ItemNotFoundException::new);
 
-        if(current.isDeleted())
+        if (current.isDeleted())
             throw new ItemAlreadyIsDeletedException();
 
         current.setAmount(amount);
         current.setStatus(FINISHED_STATUS);
 
-        return save(current);
+        return update(current);
     }
 
     public Optional<Order> markDeleted(long id) {
@@ -170,12 +170,12 @@ public class OrderRepository {
 
         Order current = currentOptional.orElseThrow(ItemNotFoundException::new);
 
-        if(current.isDeleted())
+        if (current.isDeleted())
             throw new ItemAlreadyIsDeletedException();
 
         current.setDeleted(true);
 
-        return save(current);
+        return update(current);
     }
 
     private <T> Optional<T> queryForOptional(String sql, RowMapper<T> rowMapper, Object... args) {
