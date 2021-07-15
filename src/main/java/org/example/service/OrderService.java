@@ -2,11 +2,14 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.domain.Order;
+import org.example.domain.OrderStatus;
+import org.example.exception.ItemAlreadyIsDeletedException;
 import org.example.exception.ItemNotFoundException;
 import org.example.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,11 +30,28 @@ public class OrderService {
     }
 
     public void deposit(long id, int amount) {
-        repository.deposit(id, amount).orElseThrow(ItemNotFoundException::new);
+        Order current = getOrderForModified(id);
+        current.setAmount(amount);
+        current.setStatus(OrderStatus.FINISHED_STATUS.getId());
+
+        repository.update(current).orElseThrow(ItemNotFoundException::new);
     }
 
     public void markDeleted(long id) {
-        repository.markDeleted(id).orElseThrow(ItemNotFoundException::new);
+        Order current = getOrderForModified(id);
+        current.setDeleted(true);
+
+        repository.update(current).orElseThrow(ItemNotFoundException::new);
+    }
+
+    private Order getOrderForModified(long id) {
+        Optional<Order> currentOptional = repository.getById(id);
+        Order current = currentOptional.orElseThrow(ItemNotFoundException::new);
+
+        if (current.isDeleted())
+            throw new ItemAlreadyIsDeletedException();
+
+        return current;
     }
 
 }
