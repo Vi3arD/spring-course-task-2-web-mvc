@@ -34,7 +34,7 @@ public class OrderController {
     @DeleteMapping(params = "id")
     @ResponseBody
     public void cancel(@RequestParam long id) {
-        service.markDeleted(id);
+        service.cancel(id);
     }
 
 }

@@ -37,7 +37,7 @@ public class OrderService {
         repository.update(current).orElseThrow(ItemNotFoundException::new);
     }
 
-    public void markDeleted(long id) {
+    public void cancel(long id) {
         Order current = getOrderForModified(id);
         current.setDeleted(true);
 
