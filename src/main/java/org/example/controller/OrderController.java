@@ -21,8 +21,8 @@ public class OrderController {
 
     @PostMapping(params = {"id", "amount"})
     @ResponseBody
-    public void paid(@RequestParam long id, @RequestParam int amount) {
-        service.paid(id, amount);
+    public void deposit(@RequestParam long id, @RequestParam int amount) {
+        service.deposit(id, amount);
     }
 
     @GetMapping(params = "id")

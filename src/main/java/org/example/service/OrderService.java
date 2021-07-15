@@ -26,8 +26,8 @@ public class OrderService {
         return repository.save(order).orElseThrow(ItemNotFound::new);
     }
 
-    public void paid(long id, int amount) {
-        repository.paid(id, amount).orElseThrow(ItemNotFound::new);
+    public void deposit(long id, int amount) {
+        repository.deposit(id, amount).orElseThrow(ItemNotFound::new);
     }
 
     public void markDeleted(long id) {

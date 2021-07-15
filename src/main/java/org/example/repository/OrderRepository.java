@@ -147,7 +147,7 @@ public class OrderRepository {
         ) != 0;
     }
 
-    public Optional<Order> paid(long id, int amount) {
+    public Optional<Order> deposit(long id, int amount) {
         Optional<Order> currentOptional = getById(id);
 
         Order current = currentOptional.orElseThrow(ItemNotFound::new);
