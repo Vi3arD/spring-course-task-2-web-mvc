@@ -15,6 +15,9 @@ import java.util.Optional;
 public class OrderRepository {
     private final JdbcTemplate template;
 
+    private static final String NEW_STATUS = "new";
+    private static final String FINISHED_STATUS = "finished";
+
     private final RowMapper<Order> rowMapper = (rs, i) -> new Order(
             rs.getLong("id"),
             rs.getString("userName"),
@@ -99,7 +102,7 @@ public class OrderRepository {
                     order.getCurrency(),
                     order.getReturnUrl(),
                     order.getFailUrl(),
-                    "new",
+                    NEW_STATUS,
                     false
             );
         }
@@ -156,7 +159,7 @@ public class OrderRepository {
             throw new ItemNotFound();
 
         current.setAmount(amount);
-        current.setStatus("finished");
+        current.setStatus(FINISHED_STATUS);
 
         return save(current);
     }
