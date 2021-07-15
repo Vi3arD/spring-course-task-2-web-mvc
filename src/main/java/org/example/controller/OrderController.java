@@ -2,6 +2,7 @@ package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.domain.Order;
+import org.example.domain.OrderStatusResponse;
 import org.example.service.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +16,8 @@ public class OrderController {
 
     @PostMapping
     @ResponseBody
-    public Order register(Order order) {
-        return service.save(order);
+    public void register(Order order) {
+        service.save(order);
     }
 
     @PostMapping(params = {"id", "amount"})
@@ -27,7 +28,7 @@ public class OrderController {
 
     @GetMapping(params = "id")
     @ResponseBody
-    public Order status(@RequestParam long id) {
+    public OrderStatusResponse status(@RequestParam long id) {
         return service.getById(id);
     }
 

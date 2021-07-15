@@ -3,6 +3,7 @@ package org.example.service;
 import lombok.RequiredArgsConstructor;
 import org.example.domain.Order;
 import org.example.domain.OrderStatus;
+import org.example.domain.OrderStatusResponse;
 import org.example.exception.ItemAlreadyIsDeletedException;
 import org.example.exception.ItemNotFoundException;
 import org.example.repository.OrderRepository;
@@ -21,8 +22,14 @@ public class OrderService {
         return repository.getAll();
     }
 
-    public Order getById(long id) {
-        return repository.getById(id).orElseThrow(ItemNotFoundException::new);
+    public OrderStatusResponse getById(long id) {
+        Order order = repository.getById(id).orElseThrow(ItemNotFoundException::new);
+        OrderStatusResponse osr = new OrderStatusResponse();
+        osr.setOrderNumber(order.getOrderNumber());
+        osr.setCurrency(order.getCurrency());
+        osr.setAmount(order.getAmount());
+        osr.setStatus(order.getStatus());
+        return osr;
     }
 
     public Order save(Order order) {
