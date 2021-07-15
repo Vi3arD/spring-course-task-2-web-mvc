@@ -2,7 +2,7 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.domain.Order;
-import org.example.exception.ItemNotFound;
+import org.example.exception.ItemNotFoundException;
 import org.example.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +19,19 @@ public class OrderService {
     }
 
     public Order getById(long id) {
-        return repository.getById(id).orElseThrow(ItemNotFound::new);
+        return repository.getById(id).orElseThrow(ItemNotFoundException::new);
     }
 
     public Order save(Order order) {
-        return repository.save(order).orElseThrow(ItemNotFound::new);
+        return repository.save(order).orElseThrow(ItemNotFoundException::new);
     }
 
     public void deposit(long id, int amount) {
-        repository.deposit(id, amount).orElseThrow(ItemNotFound::new);
+        repository.deposit(id, amount).orElseThrow(ItemNotFoundException::new);
     }
 
     public void markDeleted(long id) {
-        repository.markDeleted(id).orElseThrow(ItemNotFound::new);
+        repository.markDeleted(id).orElseThrow(ItemNotFoundException::new);
     }
 
 }

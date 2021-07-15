@@ -1,7 +1,7 @@
 package org.example.repository;
 
 import org.example.domain.Order;
-import org.example.exception.ItemNotFound;
+import org.example.exception.ItemNotFoundException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -153,10 +153,10 @@ public class OrderRepository {
     public Optional<Order> deposit(long id, int amount) {
         Optional<Order> currentOptional = getById(id);
 
-        Order current = currentOptional.orElseThrow(ItemNotFound::new);
+        Order current = currentOptional.orElseThrow(ItemNotFoundException::new);
 
         if(current.isDeleted())
-            throw new ItemNotFound();
+            throw new ItemNotFoundException();
 
         current.setAmount(amount);
         current.setStatus(FINISHED_STATUS);
@@ -167,10 +167,10 @@ public class OrderRepository {
     public Optional<Order> markDeleted(long id) {
         Optional<Order> currentOptional = getById(id);
 
-        Order current = currentOptional.orElseThrow(ItemNotFound::new);
+        Order current = currentOptional.orElseThrow(ItemNotFoundException::new);
 
         if(current.isDeleted())
-            throw new ItemNotFound();
+            throw new ItemNotFoundException();
 
         current.setDeleted(true);
 
