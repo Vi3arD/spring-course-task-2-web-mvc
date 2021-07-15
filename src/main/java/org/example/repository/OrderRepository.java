@@ -1,6 +1,7 @@
 package org.example.repository;
 
 import org.example.domain.Order;
+import org.example.exception.ItemAlreadyIsDeletedException;
 import org.example.exception.ItemNotFoundException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -156,7 +157,7 @@ public class OrderRepository {
         Order current = currentOptional.orElseThrow(ItemNotFoundException::new);
 
         if(current.isDeleted())
-            throw new ItemNotFoundException();
+            throw new ItemAlreadyIsDeletedException();
 
         current.setAmount(amount);
         current.setStatus(FINISHED_STATUS);
@@ -170,7 +171,7 @@ public class OrderRepository {
         Order current = currentOptional.orElseThrow(ItemNotFoundException::new);
 
         if(current.isDeleted())
-            throw new ItemNotFoundException();
+            throw new ItemAlreadyIsDeletedException();
 
         current.setDeleted(true);
 
