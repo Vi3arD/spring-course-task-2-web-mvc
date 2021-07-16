@@ -17,7 +17,7 @@ public class OrderController {
     @PostMapping
     @ResponseBody
     public void register(Order order) {
-        service.save(order);
+        service.register(order);
     }
 
     @PostMapping(params = {"id", "amount"})
@@ -29,7 +29,7 @@ public class OrderController {
     @GetMapping(params = "id")
     @ResponseBody
     public OrderStatusResponse status(@RequestParam long id) {
-        return service.getById(id);
+        return service.status(id);
     }
 
     @DeleteMapping(params = "id")

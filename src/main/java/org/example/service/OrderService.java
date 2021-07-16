@@ -9,7 +9,6 @@ import org.example.exception.ItemNotFoundException;
 import org.example.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,7 +17,7 @@ public class OrderService {
 
     private final OrderRepository repository;
 
-    public OrderStatusResponse getById(long id) {
+    public OrderStatusResponse status(long id) {
         Order order = repository.getById(id).orElseThrow(ItemNotFoundException::new);
         OrderStatusResponse osr = new OrderStatusResponse();
         osr.setOrderNumber(order.getOrderNumber());
@@ -28,7 +27,7 @@ public class OrderService {
         return osr;
     }
 
-    public Order save(Order order) {
+    public Order register(Order order) {
         return repository.save(order).orElseThrow(ItemNotFoundException::new);
     }
 
