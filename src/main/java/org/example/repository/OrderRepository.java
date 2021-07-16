@@ -34,23 +34,6 @@ public class OrderRepository {
         template = new JdbcTemplate(dataSource);
     }
 
-    public List<Order> getAll() {
-        return template.query(
-                "SELECT id, " +
-                        "userName, " +
-                        "password, " +
-                        "orderNumber, " +
-                        "amount, " +
-                        "currency, " +
-                        "returnUrl, " +
-                        "failUrl, " +
-                        "status, " +
-                        "isDeleted " +
-                        "FROM orders",
-                rowMapper
-        );
-    }
-
     public Optional<Order> getById(long id) {
         return queryForOptional(
                 "SELECT id, " +

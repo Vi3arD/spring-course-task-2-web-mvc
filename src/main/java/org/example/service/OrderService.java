@@ -18,10 +18,6 @@ public class OrderService {
 
     private final OrderRepository repository;
 
-    public List<Order> getAll() {
-        return repository.getAll();
-    }
-
     public OrderStatusResponse getById(long id) {
         Order order = repository.getById(id).orElseThrow(ItemNotFoundException::new);
         OrderStatusResponse osr = new OrderStatusResponse();
