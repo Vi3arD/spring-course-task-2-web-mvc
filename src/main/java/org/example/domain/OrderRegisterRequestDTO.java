@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
-    private long id;
-    private long userId;
+public class OrderRegisterRequestDTO {
+    private String userName;
+    private String password;
     private String orderNumber;
     private int amount;
     private int currency;

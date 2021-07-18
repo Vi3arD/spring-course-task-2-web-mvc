@@ -1,9 +1,7 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.domain.Order;
-import org.example.domain.OrderStatus;
-import org.example.domain.OrderStatusResponse;
+import org.example.domain.*;
 import org.example.exception.ItemAlreadyIsDeletedException;
 import org.example.exception.ItemNotFoundException;
 import org.example.repository.OrderRepository;
@@ -15,32 +13,28 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrderService {
 
+    public static final String NEW = "new";
+
+    private final UserService uService;
     private final OrderRepository repository;
 
-    public OrderStatusResponse status(long id) {
-        Order order = repository.getById(id).orElseThrow(ItemNotFoundException::new);
-        OrderStatusResponse osr = new OrderStatusResponse();
-        osr.setOrderNumber(order.getOrderNumber());
-        osr.setCurrency(order.getCurrency());
-        osr.setAmount(order.getAmount());
-        osr.setStatus(order.getStatus());
-        return osr;
+    public OrderStatusResponseDTO status(OrderStatusRequestDTO orderRequest) {
+        uService.checkUser(orderRequest.getUserName(), orderRequest.getPassword());
+        Order order = repository.getById(orderRequest.getOrderId()).orElseThrow(ItemNotFoundException::new);
+        return getOrderStatusResponseFromOrder(order);
     }
 
-    public Order register(Order order) {
-        return repository.save(order).orElseThrow(ItemNotFoundException::new);
+    public Order register(OrderRegisterRequestDTO orderRequest) {
+        User user = uService.checkUser(orderRequest.getUserName(), orderRequest.getPassword());
+        return repository
+                .save(getOrderFromOrderRequest(orderRequest, user.getId()))
+                .orElseThrow(ItemNotFoundException::new);
     }
 
-    public void deposit(long id, int amount) {
-        Order current = getOrderForModified(id);
-        current.setAmount(amount);
-        current.setStatus(OrderStatus.FINISHED_STATUS.getId());
+    public void cancel(OrderStatusRequestDTO orderRequest) {
+        uService.checkUser(orderRequest.getUserName(), orderRequest.getPassword());
 
-        repository.update(current).orElseThrow(ItemNotFoundException::new);
-    }
-
-    public void cancel(long id) {
-        Order current = getOrderForModified(id);
+        Order current = getOrderForModified(orderRequest.getOrderId());
         current.setDeleted(true);
 
         repository.update(current).orElseThrow(ItemNotFoundException::new);
@@ -55,6 +49,29 @@ public class OrderService {
         }
 
         return current;
+    }
+
+    private OrderStatusResponseDTO getOrderStatusResponseFromOrder(Order order) {
+        return new OrderStatusResponseDTO(
+                order.getOrderNumber(),
+                order.getCurrency(),
+                order.getAmount(),
+                order.getStatus()
+        );
+    }
+
+    private Order getOrderFromOrderRequest(OrderRegisterRequestDTO requestDTO, long userId) {
+        return new Order(
+                0,
+                userId,
+                requestDTO.getOrderNumber(),
+                requestDTO.getAmount(),
+                requestDTO.getCurrency(),
+                requestDTO.getReturnUrl(),
+                requestDTO.getFailUrl(),
+                NEW,
+                false
+        );
     }
 
 }

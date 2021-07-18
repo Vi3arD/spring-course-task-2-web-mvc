@@ -1,16 +1,12 @@
 package org.example.repository;
 
 import org.example.domain.Order;
-import org.example.domain.OrderStatus;
-import org.example.exception.ItemAlreadyIsDeletedException;
-import org.example.exception.ItemNotFoundException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,8 +15,7 @@ public class OrderRepository {
 
     private final RowMapper<Order> rowMapper = (rs, i) -> new Order(
             rs.getLong("id"),
-            rs.getString("userName"),
-            rs.getString("password"),
+            rs.getLong("userId"),
             rs.getString("orderNumber"),
             rs.getInt("amount"),
             rs.getInt("currency"),
@@ -37,8 +32,7 @@ public class OrderRepository {
     public Optional<Order> getById(long id) {
         return queryForOptional(
                 "SELECT id, " +
-                        "userName, " +
-                        "password, " +
+                        "userId, " +
                         "orderNumber, " +
                         "amount, " +
                         "currency, " +
@@ -55,8 +49,7 @@ public class OrderRepository {
     public Optional<Order> save(Order order) {
         return queryForOptional(
                 "INSERT INTO orders(" +
-                        "userName, " +
-                        "password, " +
+                        "userId, " +
                         "orderNumber, " +
                         "amount, " +
                         "currency, " +
@@ -64,10 +57,9 @@ public class OrderRepository {
                         "failUrl, " +
                         "status, " +
                         "isDeleted " +
-                        ") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+                        ") VALUES(?, ?, ?, ?, ?, ?, ?, ?) " +
                         "RETURNING id, " +
-                        "userName, " +
-                        "password, " +
+                        "userId, " +
                         "orderNumber, " +
                         "amount, " +
                         "currency, " +
@@ -76,23 +68,21 @@ public class OrderRepository {
                         "status, " +
                         "isDeleted ",
                 rowMapper,
-                order.getUserName(),
-                order.getPassword(),
+                order.getUserId(),
                 order.getOrderNumber(),
                 order.getAmount(),
                 order.getCurrency(),
                 order.getReturnUrl(),
                 order.getFailUrl(),
-                OrderStatus.NEW_STATUS.getId(),
-                false
+                order.getStatus(),
+                order.isDeleted()
         );
     }
 
     public Optional<Order> update(Order order) {
         return queryForOptional(
                 "UPDATE orders SET " +
-                        "userName = ?, " +
-                        "password = ?, " +
+                        "userId = ?, " +
                         "orderNumber = ?, " +
                         "amount = ?, " +
                         "currency = ?, " +
@@ -112,8 +102,7 @@ public class OrderRepository {
                         "status, " +
                         "isDeleted ",
                 rowMapper,
-                order.getUserName(),
-                order.getPassword(),
+                order.getUserId(),
                 order.getOrderNumber(),
                 order.getAmount(),
                 order.getCurrency(),

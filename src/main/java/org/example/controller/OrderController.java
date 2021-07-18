@@ -1,41 +1,36 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.domain.Order;
-import org.example.domain.OrderStatusResponse;
+import org.example.domain.OrderRegisterRequestDTO;
+import org.example.domain.OrderStatusRequestDTO;
+import org.example.domain.OrderStatusResponseDTO;
 import org.example.service.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/api/orders")
+@RequestMapping("/rest")
 @RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService service;
 
-    @PostMapping
+    @PostMapping(value = "register.do")
     @ResponseBody
-    public void register(Order order) {
-        service.register(order);
+    public void register(OrderRegisterRequestDTO orderRequest) {
+        service.register(orderRequest);
     }
 
-    @PostMapping(params = {"id", "amount"})
+    @PostMapping(value = "getOrderStatus.do")
     @ResponseBody
-    public void deposit(@RequestParam long id, @RequestParam int amount) {
-        service.deposit(id, amount);
+    public OrderStatusResponseDTO status(OrderStatusRequestDTO orderRequest) {
+        return service.status(orderRequest);
     }
 
-    @GetMapping(params = "id")
+    @PostMapping(value = "reverse.do")
     @ResponseBody
-    public OrderStatusResponse status(@RequestParam long id) {
-        return service.status(id);
-    }
-
-    @DeleteMapping(params = "id")
-    @ResponseBody
-    public void cancel(@RequestParam long id) {
-        service.cancel(id);
+    public void cancel(OrderStatusRequestDTO orderRequest) {
+        service.cancel(orderRequest);
     }
 
 }
