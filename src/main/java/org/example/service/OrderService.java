@@ -41,8 +41,7 @@ public class OrderService {
     }
 
     private Order getOrderForModified(long id) {
-        Optional<Order> currentOptional = repository.getById(id);
-        Order current = currentOptional.orElseThrow(ItemNotFoundException::new);
+        Order current = repository.getById(id).orElseThrow(ItemNotFoundException::new);
 
         if (current.isDeleted()) {
             throw new ItemAlreadyIsDeletedException();
