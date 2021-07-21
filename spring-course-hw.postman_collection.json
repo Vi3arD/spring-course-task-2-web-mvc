@@ -1,0 +1,245 @@
+{
+	"info": {
+		"_postman_id": "a4db878a-9f05-413b-9136-343423589f8a",
+		"name": "spring-course-hw",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register.do",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rest/register.do?userName=user_one&password=secret&orderNumber=dsfsdf3434234&amount=22&currency=231&returnUrl=fffff&failUrl=ddddd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"register.do"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "user_one"
+						},
+						{
+							"key": "password",
+							"value": "secret"
+						},
+						{
+							"key": "orderNumber",
+							"value": "dsfsdf3434234"
+						},
+						{
+							"key": "amount",
+							"value": "22"
+						},
+						{
+							"key": "currency",
+							"value": "231"
+						},
+						{
+							"key": "returnUrl",
+							"value": "fffff"
+						},
+						{
+							"key": "failUrl",
+							"value": "ddddd"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOrderStatus.do",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rest/getOrderStatus.do?orderId=2&userName=user_one&password=secret",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"getOrderStatus.do"
+					],
+					"query": [
+						{
+							"key": "orderId",
+							"value": "2"
+						},
+						{
+							"key": "userName",
+							"value": "user_one"
+						},
+						{
+							"key": "password",
+							"value": "secret"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reverse.do",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rest/reverse.do?orderId=2&userName=user_one&password=secret",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"reverse.do"
+					],
+					"query": [
+						{
+							"key": "orderId",
+							"value": "2"
+						},
+						{
+							"key": "userName",
+							"value": "user_one"
+						},
+						{
+							"key": "password",
+							"value": "secret"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register.do wrong pass",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rest/register.do?userName=user_one&password=wrong&orderNumber=dsfsdf3434234&amount=22&currency=231&returnUrl=fffff&failUrl=ddddd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"register.do"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "user_one"
+						},
+						{
+							"key": "password",
+							"value": "wrong"
+						},
+						{
+							"key": "orderNumber",
+							"value": "dsfsdf3434234"
+						},
+						{
+							"key": "amount",
+							"value": "22"
+						},
+						{
+							"key": "currency",
+							"value": "231"
+						},
+						{
+							"key": "returnUrl",
+							"value": "fffff"
+						},
+						{
+							"key": "failUrl",
+							"value": "ddddd"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOrderStatus.do wrong pass",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rest/getOrderStatus.do?orderId=2&userName=user_one&password=wrong",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"getOrderStatus.do"
+					],
+					"query": [
+						{
+							"key": "orderId",
+							"value": "2"
+						},
+						{
+							"key": "userName",
+							"value": "user_one"
+						},
+						{
+							"key": "password",
+							"value": "wrong"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOrderStatus.do wrong id",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rest/getOrderStatus.do?orderId=9999&userName=user_one&password=secret",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"getOrderStatus.do"
+					],
+					"query": [
+						{
+							"key": "orderId",
+							"value": "9999"
+						},
+						{
+							"key": "userName",
+							"value": "user_one"
+						},
+						{
+							"key": "password",
+							"value": "secret"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
