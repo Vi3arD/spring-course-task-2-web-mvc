@@ -15,19 +15,19 @@ public class OrderController {
 
     private final OrderService service;
 
-    @PostMapping(value = "register.do")
+    @PostMapping("register.do")
     @ResponseBody
     public void register(OrderRegisterRequestDTO orderRequest) {
         service.register(orderRequest);
     }
 
-    @PostMapping(value = "getOrderStatus.do")
+    @PostMapping("getOrderStatus.do")
     @ResponseBody
     public OrderStatusResponseDTO status(OrderStatusRequestDTO orderRequest) {
         return service.status(orderRequest);
     }
 
-    @PostMapping(value = "reverse.do")
+    @PostMapping("reverse.do")
     @ResponseBody
     public void cancel(OrderStatusRequestDTO orderRequest) {
         service.cancel(orderRequest);
