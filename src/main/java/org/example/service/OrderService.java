@@ -15,24 +15,24 @@ public class OrderService {
 
     public static final String NEW = "new";
 
-    private final UserService uService;
+    private final UserService userService;
     private final OrderRepository repository;
 
     public OrderStatusResponseDTO status(OrderStatusRequestDTO orderRequest) {
-        uService.checkUser(orderRequest.getUserName(), orderRequest.getPassword());
+        userService.checkUser(orderRequest.getUserName(), orderRequest.getPassword());
         Order order = repository.getById(orderRequest.getOrderId()).orElseThrow(ItemNotFoundException::new);
         return getOrderStatusResponseFromOrder(order);
     }
 
     public Order register(OrderRegisterRequestDTO orderRequest) {
-        User user = uService.checkUser(orderRequest.getUserName(), orderRequest.getPassword());
+        User user = userService.checkUser(orderRequest.getUserName(), orderRequest.getPassword());
         return repository
                 .save(getOrderFromOrderRequest(orderRequest, user.getId()))
                 .orElseThrow(ItemNotFoundException::new);
     }
 
     public void cancel(OrderStatusRequestDTO orderRequest) {
-        uService.checkUser(orderRequest.getUserName(), orderRequest.getPassword());
+        userService.checkUser(orderRequest.getUserName(), orderRequest.getPassword());
 
         Order current = getOrderForModified(orderRequest.getOrderId());
         current.setDeleted(true);
