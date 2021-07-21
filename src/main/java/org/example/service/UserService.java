@@ -24,4 +24,10 @@ public class UserService {
         return user;
     }
 
+    public void checkPermissions(long idFromOrder, long idFromRequest) {
+        if (idFromOrder != idFromRequest) {
+            throw new AuthorizationFailedException();
+        }
+    }
+
 }

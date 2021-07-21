@@ -240,6 +240,40 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "getOrderStatus.do with another user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rest/getOrderStatus.do?orderId=2&userName=user_one&password=secret",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"getOrderStatus.do"
+					],
+					"query": [
+						{
+							"key": "orderId",
+							"value": "2"
+						},
+						{
+							"key": "userName",
+							"value": "user_one"
+						},
+						{
+							"key": "password",
+							"value": "secret"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

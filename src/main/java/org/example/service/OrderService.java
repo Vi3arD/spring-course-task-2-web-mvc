@@ -19,8 +19,9 @@ public class OrderService {
     private final OrderRepository repository;
 
     public OrderStatusResponseDTO status(OrderStatusRequestDTO orderRequest) {
-        userService.checkUser(orderRequest.getUserName(), orderRequest.getPassword());
+        User user = userService.checkUser(orderRequest.getUserName(), orderRequest.getPassword());
         Order order = repository.getById(orderRequest.getOrderId()).orElseThrow(ItemNotFoundException::new);
+        userService.checkPermissions(order.getUserId(), user.getId());
         return getOrderStatusResponseFromOrder(order);
     }
 
@@ -32,9 +33,12 @@ public class OrderService {
     }
 
     public void cancel(OrderStatusRequestDTO orderRequest) {
-        userService.checkUser(orderRequest.getUserName(), orderRequest.getPassword());
+        User user = userService.checkUser(orderRequest.getUserName(), orderRequest.getPassword());
 
         Order current = getOrderForModified(orderRequest.getOrderId());
+
+        userService.checkPermissions(current.getUserId(), user.getId());
+
         current.setDeleted(true);
 
         repository.update(current).orElseThrow(ItemNotFoundException::new);
