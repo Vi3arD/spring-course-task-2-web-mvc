@@ -6,7 +6,7 @@ CREATE TABLE users (
 
 CREATE TABLE orders (
   id BIGSERIAL PRIMARY KEY,
-  userId BIGSERIAL,
+  userId BIGSERIAL NOT NULL,
   orderNumber TEXT NOT NULL,
   amount INTEGER NOT NULL DEFAULT 0 CHECK (amount >= 0),
   currency INTEGER NOT NULL DEFAULT 810 CHECK (currency >= 0),
