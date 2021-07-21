@@ -1,7 +1,7 @@
 package org.example.repository;
 
 import org.example.domain.Order;
-import org.springframework.dao.support.DataAccessUtils;
+import org.example.utils.RepositoryUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -30,7 +30,7 @@ public class OrderRepository {
     }
 
     public Optional<Order> getById(long id) {
-        return queryForOptional(
+        return RepositoryUtils.queryForOptional(template,
                 "SELECT id, " +
                         "userId, " +
                         "orderNumber, " +
@@ -47,7 +47,7 @@ public class OrderRepository {
     }
 
     public Optional<Order> save(Order order) {
-        return queryForOptional(
+        return RepositoryUtils.queryForOptional(template,
                 "INSERT INTO orders(" +
                         "userId, " +
                         "orderNumber, " +
@@ -80,7 +80,7 @@ public class OrderRepository {
     }
 
     public Optional<Order> update(Order order) {
-        return queryForOptional(
+        return RepositoryUtils.queryForOptional(template,
                 "UPDATE orders SET " +
                         "userId = ?, " +
                         "orderNumber = ?, " +
@@ -112,12 +112,6 @@ public class OrderRepository {
                 order.isDeleted(),
                 order.getId()
         );
-    }
-
-    private <T> Optional<T> queryForOptional(String sql, RowMapper<T> rowMapper, Object... args) {
-        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(
-                sql, rowMapper, args
-        )));
     }
 
 }

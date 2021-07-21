@@ -1,7 +1,7 @@
 package org.example.repository;
 
 import org.example.domain.User;
-import org.springframework.dao.support.DataAccessUtils;
+import org.example.utils.RepositoryUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -24,7 +24,7 @@ public class UserRepository {
     }
 
     public Optional<User> getByName(String name) {
-        return queryForOptional(
+        return RepositoryUtils.queryForOptional(template,
                 "SELECT id, " +
                         "userName, " +
                         "password " +
@@ -32,12 +32,6 @@ public class UserRepository {
                         "WHERE userName = ?",
                 rowMapper, name
         );
-    }
-
-    private <T> Optional<T> queryForOptional(String sql, RowMapper<T> rowMapper, Object... args) {
-        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(
-                sql, rowMapper, args
-        )));
     }
 
 }
