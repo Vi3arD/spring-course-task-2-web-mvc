@@ -92,8 +92,7 @@ public class OrderRepository {
                         "isDeleted = ? " +
                         "WHERE id = ? " +
                         "RETURNING id, " +
-                        "userName, " +
-                        "password, " +
+                        "userId, " +
                         "orderNumber, " +
                         "amount, " +
                         "currency, " +
